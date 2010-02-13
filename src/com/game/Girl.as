@@ -7,6 +7,7 @@ package com.game
 	{
 		[Embed(source="data/girl.png")] private var girlImg:Class;
 		
+		protected var _happy:Boolean;
 		protected var _runSpeed:Number;
 		
 		public function Girl(X:int,Y:int)
@@ -14,23 +15,38 @@ package com.game
 			super(X,Y,girlImg);
 			loadGraphic(girlImg,true,true);
 			width = 16;
+			height = 28;
+			
+			_happy = false;
 			
 			addAnimation("idle", [0, 1], 5);
 			addAnimation("happy", [0, 2] ,5);
 		}
 		
 		override public function update():void{
+			trace("girl: "+ x + "," + y);
 			super.update();
 			
-			if(FlxG.score > 12){
-				play("happy");
+			if(FlxG.level < 4){
+				velocity.x = 0;
+				velocity.y = 0;
 			}
-			else
-				play("idle");
+			
+			_happy = FlxG.score >= 12;
+			
+			play(_happy ? "happy" : "idle");
 				
 			if(x < 0 || y < 0 || x > FlxG.width || y > FlxG.height){
-				FlxG.state = new IntroState();
+				x = 0;
+				y = 0;
+				//Just move on, we can go to next level by marrying an unhappy girl
+				FlxG.level++;
+				FlxG.state = new LevelState();
 			}
+		}
+		
+		public function get happy():Boolean{
+			return _happy;
 		}
 	}
 }

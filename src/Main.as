@@ -1,7 +1,9 @@
 package {
 	
-	import org.flixel.FlxGame;
 	import com.game.IntroState;
+	
+	import org.flixel.FlxG;
+	import org.flixel.FlxGame;
 	
 	[SWF(width="640", height="480", backgroundColor="#ffffff")]
 	[Frame(factoryClass="Preloader")]
@@ -13,8 +15,8 @@ package {
 			super(640, 480, IntroState, 1);
 			super.showLogo = false;
 			
-			//super.
 			//useDefaultHotKeys = false;
+			FlxG.levels = [];
 		}
 	}
 }

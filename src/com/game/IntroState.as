@@ -10,28 +10,25 @@ package com.game
 		private var boy:Boy;
 		private var girl:Girl;
 		private var flower:Flower;
-		
+		private var text:FlxText;
 		
 		public function IntroState()
 		{
 			super();
 			bgColor = 0xffeeeeff;
 			
-			boy = new Boy(50,20);
-			girl = new Girl(FlxG.width/2,FlxG.height/2);
+			FlxG.level = 0;
+			
+			boy = new Boy(50,FlxG.height/2);
+			girl = new Girl(80,FlxG.height/2);
 			flower = new Flower(FlxU.random()*600 + 20,-20);
 			
-			var text:FlxText = new FlxText(FlxG.width/2 - 50, FlxG.height-20, 200, "Click... Move... Collect...");
+			text = new FlxText(FlxG.width/2 - 50, FlxG.height-20, 200, "Click to Play");
 			text.color = 0x888888;
 			add(text);
 			
 			add(boy);
 			add(girl);
-			add(flower);
-			
-			FlxG.follow(boy,2.5);
-			FlxG.followAdjust(0.5,0.0);
-			FlxG.followBounds(0,0,640,480);
 		}
 		
 		override public function update():void
@@ -42,20 +39,11 @@ package com.game
 			girl.update();
 			flower.update();
 			
-			FlxU.overlap(boy, flower, boyAndFlower);
-			//FlxU.overlap(boy, girl, boyAndGirl);
+			if(FlxG.mouse.pressed()){
+				text.text = "Dating.  Taking her for a walk.";
+			}
+			
 			FlxU.collide(boy, girl);
-			
 		}
-		
-		private function boyAndFlower(boy:Boy, flower:Flower):void{
-			FlxG.score++;
-			flower.reset(FlxU.random()*600 + 20, -20);
-		}
-		
-		private function boyAndGirl(boy:Boy, girl:Girl):void{
-			
-		}
-		
 	}
 }
